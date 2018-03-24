@@ -17,4 +17,17 @@ public class Exceptions {
             throw new RuntimeException(e);
         }
     }
+
+    static public <T> void unchecked(VoidCallable<T> statement) {
+        try {
+            statement.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FunctionalInterface
+    public interface VoidCallable<T> {
+        void call() throws Exception;
+    }
 }
