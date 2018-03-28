@@ -18,7 +18,7 @@ public class Exceptions {
         }
     }
 
-    static public <T> void unchecked(VoidCallable<T> statement) {
+    static public <T> void unchecked(VoidCallable statement) {
         try {
             statement.call();
         } catch (Exception e) {
@@ -26,8 +26,4 @@ public class Exceptions {
         }
     }
 
-    @FunctionalInterface
-    public interface VoidCallable<T> {
-        void call() throws Exception;
-    }
 }
