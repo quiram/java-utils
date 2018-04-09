@@ -19,11 +19,11 @@ public class ArgumentChecks {
     }
 
     static public <T> void ensureNotNull(T param, String paramName) {
-        ensure(param, paramName, o -> !Objects.isNull(o), "not be null");
+        ensure(param, paramName, Objects::isNull, "not be null");
     }
 
-    static public <T> void ensure(T param, String paramName, Function<T, Boolean> checker, String message) {
-        if (checker.apply(param)) {
+    static public <T> void ensure(T param, String paramName, Function<T, Boolean> failCondition, String message) {
+        if (failCondition.apply(param)) {
             throw new IllegalArgumentException(paramName + " must " + message);
         }
     }
