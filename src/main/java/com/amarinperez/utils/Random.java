@@ -1,11 +1,17 @@
 package com.amarinperez.utils;
 
 public class Random {
+    private static java.util.Random random = new java.util.Random();
+
     public static String randomString() {
-        return "" + new java.util.Random().nextLong();
+        return "text-" + randomLong();
     }
 
     public static int randomInt() {
-        return new java.util.Random().nextInt();
+        return random.nextInt();
+    }
+
+    public static long randomLong() {
+        return random.nextInt();
     }
 }
