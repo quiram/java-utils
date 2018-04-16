@@ -15,6 +15,10 @@ public class Random {
         return random.nextInt();
     }
 
+    public static int randomInt(int bound) {
+        return random.nextInt(bound);
+    }
+
     public static long randomLong() {
         return random.nextInt();
     }
@@ -27,7 +31,7 @@ public class Random {
         ensureGreaterThanZero(bound, "bound");
         ensureNotNegative(precision, "precision");
         final int precisionFactor = pow(10, precision);
-        final double allDigits = random.nextInt(bound * precisionFactor);
+        final double allDigits = randomInt(bound * precisionFactor);
         return allDigits / precisionFactor;
     }
 }
