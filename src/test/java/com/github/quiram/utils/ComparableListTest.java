@@ -12,6 +12,7 @@ import static com.github.quiram.utils.ComparableList.comparable;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class ComparableListTest {
