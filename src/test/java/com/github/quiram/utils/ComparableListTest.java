@@ -1,4 +1,4 @@
-package com.amarinperez.utils;
+package com.github.quiram.utils;
 
 
 import org.junit.Test;
@@ -8,11 +8,10 @@ import org.junit.runners.Parameterized;
 import java.util.Collection;
 import java.util.List;
 
-import static com.amarinperez.utils.ComparableList.comparable;
+import static com.github.quiram.utils.ComparableList.comparable;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class ComparableListTest {

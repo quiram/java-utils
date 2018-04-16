@@ -1,4 +1,4 @@
-package com.amarinperez.utils;
+package com.github.quiram.utils;
 
 @FunctionalInterface
 public interface VoidCallable {

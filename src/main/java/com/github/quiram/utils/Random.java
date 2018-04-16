@@ -1,4 +1,4 @@
-package com.amarinperez.utils;
+package com.github.quiram.utils;
 
 public class Random {
     private static java.util.Random random = new java.util.Random();

@@ -1,10 +1,10 @@
-package com.amarinperez.utils;
+package com.github.quiram.utils;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static com.amarinperez.utils.ArgumentChecks.ensureNotNull;
+import static com.github.quiram.utils.ArgumentChecks.ensureNotNull;
 
 public class ArgumentChecksTest {
     @Rule

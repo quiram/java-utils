@@ -1,4 +1,4 @@
-package com.amarinperez.utils;
+package com.github.quiram.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
