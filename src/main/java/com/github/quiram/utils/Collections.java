@@ -31,4 +31,8 @@ public class Collections {
     public static <K, V> Map<K, V> toMap(Collection<V> items, Function<V, K> key) {
         return items.stream().collect(Collectors.toMap(key, identity()));
     }
+
+    public static <K, V1, V2> Map<K, V2> toMap(Collection<V1> items, Function<V1, K> key, Function<V1, V2> value) {
+        return items.stream().collect(Collectors.toMap(key, value));
+    }
 }
