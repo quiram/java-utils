@@ -36,6 +36,11 @@ public class Collections {
     }
 
     @SafeVarargs
+    public static <K, V> Map<K, V> mergeMaps(BiFunction<V, V, V> merger, Map<K, V> map1, Map<K, V> map2, Map<K, V>... moreMaps) {
+        return merge(merger, map1, map2, moreMaps);
+    }
+
+    @SafeVarargs
     public static <K, V> Map<K, V> merge(BiFunction<V, V, V> merger, Map<K, V> map1, Map<K, V> map2, Map<K, V>... moreMaps) {
         Map<K, V> finalMap = new HashMap<>();
         List<Map<K, V>> allMaps = new LinkedList<>();
@@ -48,8 +53,8 @@ public class Collections {
     }
 
     @SafeVarargs
-    public static <K, V> Map<K, V> mergeMaps(BiFunction<V, V, V> merger, Map<K, V> map1, Map<K, V> map2, Map<K, V>... moreMaps) {
-        return merge(merger, map1, map2, moreMaps);
+    public static <T> Set<T> mergeSets(Set<T> set1, Set<T> set2, Set<T>... moreSets) {
+        return merge(set1, set2, moreSets);
     }
 
     @SafeVarargs
@@ -59,11 +64,6 @@ public class Collections {
         asList(moreSets).forEach(finalSet::addAll);
 
         return finalSet;
-    }
-
-    @SafeVarargs
-    public static <T> Set<T> mergeSets(Set<T> set1, Set<T> set2, Set<T>... moreSets) {
-        return merge(set1, set2, moreSets);
     }
 
 }
