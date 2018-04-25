@@ -4,7 +4,9 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import static com.github.quiram.utils.ArgumentChecks.ensure;
 import static java.util.Arrays.asList;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
@@ -66,4 +68,30 @@ public class Collections {
         return finalSet;
     }
 
+    public static <T> List<List<T>> transpose(List<List<T>> listOfLists) {
+        if (listOfLists == null)
+            return null;
+
+        if (listOfLists.isEmpty() || listOfLists.get(0).isEmpty())
+            return listOfLists;
+
+        final String errorMessage = "be square (all sublists should be the same size)";
+        ensure(listOfLists, "listOfLists", Collections::listsHaveDifferentSize, errorMessage);
+
+        final LinkedList<List<T>> outerList = new LinkedList<>();
+
+        IntStream.range(0, listOfLists.get(0).size()).forEach(i -> {
+            final LinkedList<T> innerList = new LinkedList<>();
+            outerList.add(innerList);
+            for (List<T> listOfList : listOfLists) {
+                innerList.add(listOfList.get(i));
+            }
+        });
+
+        return outerList;
+    }
+
+    private static <T> boolean listsHaveDifferentSize(List<List<T>> l) {
+        return l.stream().map(List::size).distinct().count() > 1;
+    }
 }

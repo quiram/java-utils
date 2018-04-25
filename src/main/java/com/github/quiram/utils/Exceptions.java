@@ -25,5 +25,4 @@ public class Exceptions {
             throw new RuntimeException(e);
         }
     }
-
 }
