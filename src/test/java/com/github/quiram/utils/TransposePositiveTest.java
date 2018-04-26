@@ -14,12 +14,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
-public class CollectionsTest<T> {
+public class TransposePositiveTest<T> {
 
     private final List<List<T>> in;
     private final List<List<T>> out;
 
-    public CollectionsTest(List<List<T>> in, List<List<T>> out) {
+    public TransposePositiveTest(List<List<T>> in, List<List<T>> out) {
         this.in = in;
         this.out = out;
     }

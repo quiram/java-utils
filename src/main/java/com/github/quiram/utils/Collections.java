@@ -76,7 +76,7 @@ public class Collections {
             return listOfLists;
 
         final String errorMessage = "be square (all sublists should be the same size)";
-        ensure(listOfLists, "listOfLists", Collections::listsHaveDifferentSize, errorMessage);
+        ensure(listOfLists, "listOfLists", Collections::listsHaveSameSize, errorMessage);
 
         final LinkedList<List<T>> outerList = new LinkedList<>();
 
@@ -91,7 +91,7 @@ public class Collections {
         return outerList;
     }
 
-    private static <T> boolean listsHaveDifferentSize(List<List<T>> l) {
-        return l.stream().map(List::size).distinct().count() > 1;
+    private static <T> boolean listsHaveSameSize(List<List<T>> l) {
+        return l.stream().map(List::size).distinct().count() == 1;
     }
 }
