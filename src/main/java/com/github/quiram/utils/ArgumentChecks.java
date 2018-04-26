@@ -24,7 +24,7 @@ public class ArgumentChecks {
     }
 
     static public void ensureInRange(int lowerBound, int higherBound, int param, String paramName) throws IllegalArgumentException {
-        ensure(() -> param <= lowerBound && param >= higherBound, format("%s must be between %s and %s", paramName, lowerBound, higherBound));
+        ensure(() -> param <= lowerBound || param >= higherBound, format("%s must be between %s and %s", paramName, lowerBound, higherBound));
     }
 
     static public void ensureNotBlank(String param, final String paramName) throws IllegalArgumentException {
