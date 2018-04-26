@@ -7,6 +7,7 @@ import java.util.concurrent.Callable;
 import java.util.function.Function;
 
 import static com.github.quiram.utils.Exceptions.unchecked;
+import static java.lang.String.format;
 
 public class ArgumentChecks {
 
@@ -20,6 +21,10 @@ public class ArgumentChecks {
 
     static public void ensureGreaterThan(int threshold, int param, String paramName) throws IllegalArgumentException {
         ensure(param, paramName, p -> p <= threshold, "be greater than " + threshold);
+    }
+
+    static public void ensureInRange(int lowerBound, int higherBound, int param, String paramName) throws IllegalArgumentException {
+        ensure(() -> param <= lowerBound && param >= higherBound, format("%s must be between %s and %s", paramName, lowerBound, higherBound));
     }
 
     static public void ensureNotBlank(String param, final String paramName) throws IllegalArgumentException {
