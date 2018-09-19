@@ -2,6 +2,7 @@ package com.github.quiram.utils;
 
 import static com.github.quiram.utils.ArgumentChecks.ensureGreaterThanZero;
 import static com.github.quiram.utils.ArgumentChecks.ensureNotNegative;
+import static com.github.quiram.utils.Exceptions.unchecked;
 import static com.github.quiram.utils.Math.pow;
 
 public class Random {
@@ -49,5 +50,12 @@ public class Random {
 
     public static boolean randomBoolean() {
         return random.nextBoolean();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Enum<T>> T randomEnum(Class<T> enumType) {
+        final T[] enumValues = (T[]) unchecked(
+                () -> enumType.getMethod("values").invoke(null));
+        return enumValues[randomInt(enumValues.length)];
     }
 }
