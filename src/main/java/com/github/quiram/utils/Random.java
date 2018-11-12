@@ -24,6 +24,14 @@ public class Random {
         return randomIntGreaterThan(0);
     }
 
+    public static int randomPositiveInt(int upperBound) {
+        if (upperBound <= 0) {
+            throw new IllegalArgumentException("Upper bound must be 1 or greater.");
+        }
+
+        return randomIntWithinRange(0, upperBound);
+    }
+
     public static int randomIntGreaterThan(int threshold) {
         return randomIntWithinRange(threshold + 1, Integer.MAX_VALUE);
     }
