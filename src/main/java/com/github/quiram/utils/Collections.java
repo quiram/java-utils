@@ -13,6 +13,10 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 public class Collections {
+    public static <T> Optional<T> head(List<T> list) {
+        return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+    }
+
     public static <T, R> R map(T o, Function<T, R> mapper) {
         return o == null ? null : mapper.apply(o);
     }
