@@ -8,10 +8,6 @@ import static java.util.Collections.singletonList;
 
 public class Optionals {
     public static <T> List<T> toList(Optional<T> o) {
-        if (o.isPresent()) {
-            return singletonList(o.get());
-        }
-
-        return emptyList();
+        return o.isPresent() ? singletonList(o.get()) : emptyList();
     }
 }
