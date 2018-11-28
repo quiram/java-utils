@@ -29,6 +29,11 @@ public class Collections {
         return in.stream().map(mapper).collect(toList());
     }
 
+    @SafeVarargs
+    public static <T> List<T> concat(List<T>... lists) {
+        return Streams.concat(Arrays.stream(lists).map(List::stream)).collect(toList());
+    }
+
     public static <T, R> Set<R> map(Set<T> in, Function<T, R> mapper) {
         return in.stream().map(mapper).collect(toSet());
     }
