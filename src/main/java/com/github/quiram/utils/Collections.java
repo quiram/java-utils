@@ -3,11 +3,14 @@ package com.github.quiram.utils;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static com.github.quiram.utils.ArgumentChecks.ensure;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -30,8 +33,13 @@ public class Collections {
     }
 
     @SafeVarargs
+    public static <T> List<T> filter(List<T> in, Predicate<T>... filters) {
+        return stream(filters).reduce(in.stream(), Stream::filter, (s1, s2) -> s2).collect(toList());
+    }
+
+    @SafeVarargs
     public static <T> List<T> concat(List<T>... lists) {
-        return Streams.concat(Arrays.stream(lists).map(List::stream)).collect(toList());
+        return Streams.concat(stream(lists).map(List::stream)).collect(toList());
     }
 
     public static <T, R> Set<R> map(Set<T> in, Function<T, R> mapper) {
