@@ -28,8 +28,12 @@ public class Collections {
         return map(o, T::toString);
     }
 
-    public static <T, R> List<R> map(List<T> in, Function<T, R> mapper) {
+    public static <In, Out> List<Out> map(List<In> in, Function<In, Out> mapper) {
         return in.stream().map(mapper).collect(toList());
+    }
+
+    public static <In, Mid, Out> List<Out> map(List<In> in, Function<In, Mid> mapper1, Function<Mid, Out> mapper2) {
+        return in.stream().map(mapper1).map(mapper2).collect(toList());
     }
 
     @SafeVarargs
