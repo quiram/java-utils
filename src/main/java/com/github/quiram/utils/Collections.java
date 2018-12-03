@@ -41,6 +41,11 @@ public class Collections {
         return stream(filters).reduce(in.stream(), Stream::filter, (s1, s2) -> s2).collect(toList());
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> List<T> concat(List<T> list1, List<T> list2) {
+        return concat(new List[]{list1, list2});
+    }
+
     @SafeVarargs
     public static <T> List<T> concat(List<T>... lists) {
         return Streams.concat(stream(lists).map(List::stream)).collect(toList());
