@@ -32,6 +32,10 @@ public class Collections {
         return in.stream().map(mapper).collect(toList());
     }
 
+    public static <In, Out> List<Out> flatMap(List<In> in, Function<In, List<Out>> mapper) {
+        return in.stream().map(mapper).flatMap(List::stream).collect(toList());
+    }
+
     public static <In, Mid, Out> List<Out> map(List<In> in, Function<In, Mid> mapper1, Function<Mid, Out> mapper2) {
         return in.stream().map(mapper1).map(mapper2).collect(toList());
     }
