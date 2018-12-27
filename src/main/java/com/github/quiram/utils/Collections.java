@@ -12,7 +12,6 @@ import static com.github.quiram.utils.ArgumentChecks.ensure;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 public class Collections {
@@ -29,20 +28,20 @@ public class Collections {
     }
 
     public static <In, Out> List<Out> map(List<In> in, Function<In, Out> mapper) {
-        return in.stream().map(mapper).collect(toList());
+        return in.stream().map(mapper).collect(Collectors.toList());
     }
 
     public static <In, Out> List<Out> flatMap(List<In> in, Function<In, List<Out>> mapper) {
-        return in.stream().map(mapper).flatMap(List::stream).collect(toList());
+        return in.stream().map(mapper).flatMap(List::stream).collect(Collectors.toList());
     }
 
     public static <In, Mid, Out> List<Out> map(List<In> in, Function<In, Mid> mapper1, Function<Mid, Out> mapper2) {
-        return in.stream().map(mapper1).map(mapper2).collect(toList());
+        return in.stream().map(mapper1).map(mapper2).collect(Collectors.toList());
     }
 
     @SafeVarargs
     public static <T> List<T> filter(List<T> in, Predicate<T>... filters) {
-        return stream(filters).reduce(in.stream(), Stream::filter, (s1, s2) -> s2).collect(toList());
+        return stream(filters).reduce(in.stream(), Stream::filter, (s1, s2) -> s2).collect(Collectors.toList());
     }
 
     @SafeVarargs
@@ -57,11 +56,15 @@ public class Collections {
 
     @SafeVarargs
     public static <T> List<T> concat(List<T>... lists) {
-        return Streams.concat(stream(lists).map(List::stream)).collect(toList());
+        return Streams.concat(stream(lists).map(List::stream)).collect(Collectors.toList());
     }
 
     public static <T, R> Set<R> map(Set<T> in, Function<T, R> mapper) {
         return in.stream().map(mapper).collect(toSet());
+    }
+
+    public static <T> List<T> toList(Collection<T> collection) {
+        return new ArrayList<>(collection);
     }
 
     public static <K, V> Map<K, V> toMap(Collection<V> items, Function<V, K> key) {
