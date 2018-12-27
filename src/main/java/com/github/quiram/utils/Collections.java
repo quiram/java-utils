@@ -45,6 +45,11 @@ public class Collections {
         return stream(filters).reduce(in.stream(), Stream::filter, (s1, s2) -> s2).collect(toList());
     }
 
+    @SafeVarargs
+    public static <T> Set<T> filter(Set<T> in, Predicate<T>... filters) {
+        return stream(filters).reduce(in.stream(), Stream::filter, (s1, s2) -> s2).collect(toSet());
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> List<T> concat(List<T> list1, List<T> list2) {
         return concat(new List[]{list1, list2});
