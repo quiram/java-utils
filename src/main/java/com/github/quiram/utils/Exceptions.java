@@ -1,5 +1,6 @@
 package com.github.quiram.utils;
 
+import java.util.Optional;
 import java.util.concurrent.Callable;
 
 public class Exceptions {
@@ -23,6 +24,21 @@ public class Exceptions {
             statement.call();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    static public <T> Optional<T> attempt(Callable<T> statement) {
+        try {
+            return Optional.of(statement.call());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    static public void ignoreFailures(VoidCallable statement) {
+        try {
+            statement.call();
+        } catch (Exception ignored) {
         }
     }
 }
