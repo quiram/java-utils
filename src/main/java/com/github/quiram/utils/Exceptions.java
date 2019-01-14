@@ -23,11 +23,11 @@ public class Exceptions {
         }
     }
 
-    static public <T> void unchecked(VoidCallable statement) {
+    static public void unchecked(VoidCallable statement) {
         unchecked(statement, null);
     }
 
-    static public <T> void unchecked(VoidCallable statement, String errorMsg) {
+    static public void unchecked(VoidCallable statement, String errorMsg) {
         try {
             statement.call();
         } catch (Exception e) {
