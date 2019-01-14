@@ -12,18 +12,26 @@ public class Exceptions {
      * @return value returned by the statement
      */
     public static <T> T unchecked(Callable<T> statement) {
+        return unchecked(statement, null);
+    }
+
+    public static <T> T unchecked(Callable<T> statement, String errorMsg) {
         try {
             return statement.call();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(errorMsg, e);
         }
     }
 
     static public <T> void unchecked(VoidCallable statement) {
+        unchecked(statement, null);
+    }
+
+    static public <T> void unchecked(VoidCallable statement, String errorMsg) {
         try {
             statement.call();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(errorMsg, e);
         }
     }
 
