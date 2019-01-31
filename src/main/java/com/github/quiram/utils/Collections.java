@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import static com.github.quiram.utils.ArgumentChecks.ensure;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.Collections.singletonList;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toSet;
 
@@ -49,9 +50,8 @@ public class Collections {
         return stream(filters).reduce(in.stream(), Stream::filter, (s1, s2) -> s2).collect(toSet());
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> List<T> concat(List<T> list1, List<T> list2) {
-        return concat(new List[]{list1, list2});
+    public static <T> List<T> concat(T item, List<T> list2) {
+        return concat(singletonList(item), list2);
     }
 
     @SafeVarargs
