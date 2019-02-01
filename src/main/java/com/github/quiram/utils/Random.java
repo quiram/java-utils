@@ -1,15 +1,31 @@
 package com.github.quiram.utils;
 
+import java.util.stream.IntStream;
+
 import static com.github.quiram.utils.ArgumentChecks.ensureGreaterThanZero;
 import static com.github.quiram.utils.ArgumentChecks.ensureNotNegative;
 import static com.github.quiram.utils.Exceptions.unchecked;
 import static com.github.quiram.utils.Math.pow;
+import static java.lang.Character.toUpperCase;
 
 public class Random {
     private static java.util.Random random = new java.util.Random();
+    private static final String letters = "abcdefghijklmnopqrstuvwxyz";
 
     public static String randomString() {
-        return "text-" + randomLong();
+        return IntStream.range(0, randomPositiveInt(20))
+                .mapToObj($ -> randomLetter())
+                .reduce(new StringBuilder(), StringBuilder::append, (b1, b2) -> b2)
+                .toString();
+    }
+
+    public static char randomLetter() {
+        final char c = letters.charAt(randomPositiveInt(letters.length()));
+        if (randomBoolean()) {
+            return c;
+        } else {
+            return toUpperCase(c);
+        }
     }
 
     public static int randomInt() {
