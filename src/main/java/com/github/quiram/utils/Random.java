@@ -13,7 +13,7 @@ public class Random {
     private static final String letters = "abcdefghijklmnopqrstuvwxyz";
 
     public static String randomString() {
-        return IntStream.range(0, randomPositiveInt(20))
+        return IntStream.range(0, randomPositiveInt(20) + 1)
                 .mapToObj($ -> randomLetter())
                 .reduce(new StringBuilder(), StringBuilder::append, (b1, b2) -> b2)
                 .toString();
