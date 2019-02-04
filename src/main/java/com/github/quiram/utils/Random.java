@@ -91,4 +91,8 @@ public class Random {
                 () -> enumType.getMethod("values").invoke(null));
         return enumValues[randomInt(enumValues.length)];
     }
+
+    public static <T> T randomElement(T[] array) {
+        return array[randomPositiveInt(array.length)];
+    }
 }
