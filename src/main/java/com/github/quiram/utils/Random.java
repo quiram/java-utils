@@ -11,6 +11,7 @@ import static java.lang.Character.toUpperCase;
 public class Random {
     private static java.util.Random random = new java.util.Random();
     private static final String letters = "abcdefghijklmnopqrstuvwxyz";
+    private static final String digits = "0123456789";
 
     public static String randomString() {
         return IntStream.range(0, randomPositiveInt(20) + 1)
@@ -20,12 +21,20 @@ public class Random {
     }
 
     public static char randomLetter() {
-        final char c = letters.charAt(randomPositiveInt(letters.length()));
+        final char c = randomCharacter(letters);
         if (randomBoolean()) {
             return c;
         } else {
             return toUpperCase(c);
         }
+    }
+
+    public static char randomDigit() {
+        return randomCharacter(digits);
+    }
+
+    public static char randomCharacter(String s) {
+        return s.charAt(randomPositiveInt(s.length()));
     }
 
     public static int randomInt() {
