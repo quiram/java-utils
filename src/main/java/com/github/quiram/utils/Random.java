@@ -1,5 +1,7 @@
 package com.github.quiram.utils;
 
+import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 import static com.github.quiram.utils.ArgumentChecks.ensureGreaterThanZero;
@@ -83,6 +85,14 @@ public class Random {
 
     public static boolean randomBoolean() {
         return random.nextBoolean();
+    }
+
+    public static <T> Optional<T> randomOptional(Supplier<T> supplier) {
+        if (randomBoolean()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(supplier.get());
     }
 
     @SuppressWarnings("unchecked")
