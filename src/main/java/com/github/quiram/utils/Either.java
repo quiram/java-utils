@@ -21,8 +21,8 @@ public class Either<L, R> {
     }
 
     public <T> T map(Function<L, T> leftFunction, Function<R, T> rightFunction) {
-        return left.map(leftFunction).orElse(
-                right.map(rightFunction)
+        return left.map(leftFunction).orElseGet(
+                () -> right.map(rightFunction)
                         .orElseThrow(() -> new RuntimeException("Unexpected: Both elements in Either are empty.")
                         )
         );
