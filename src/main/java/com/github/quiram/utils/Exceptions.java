@@ -2,6 +2,7 @@ package com.github.quiram.utils;
 
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 public class Exceptions {
     /**
@@ -21,6 +22,10 @@ public class Exceptions {
         } catch (Exception e) {
             throw new RuntimeException(errorMsg, e);
         }
+    }
+
+    public static <T> Supplier<T> asSupplier(Callable<T> callable) {
+        return () -> unchecked(callable);
     }
 
     static public void unchecked(VoidCallable statement) {
