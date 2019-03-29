@@ -59,6 +59,10 @@ public class Collections {
         return Streams.concat(stream(lists).map(List::stream)).collect(Collectors.toList());
     }
 
+    public static <T> Optional<T> findFirst(Collection<T> collection, Predicate<T> predicate) {
+        return collection.stream().filter(predicate).findFirst();
+    }
+
     public static <T, R> Set<R> map(Set<T> in, Function<T, R> mapper) {
         return in.stream().map(mapper).collect(toSet());
     }
