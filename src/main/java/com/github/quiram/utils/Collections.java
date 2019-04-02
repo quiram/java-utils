@@ -12,12 +12,13 @@ import static com.github.quiram.utils.ArgumentChecks.ensure;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Collections.singletonList;
+import static java.util.Objects.isNull;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toSet;
 
 public class Collections {
     public static <T> Optional<T> head(List<T> list) {
-        return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+        return isNull(list) || list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
     }
 
     public static <T, R> R map(T o, Function<T, R> mapper) {
