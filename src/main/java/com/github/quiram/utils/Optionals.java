@@ -25,4 +25,12 @@ public class Optionals {
 
         return Optional.empty();
     }
+
+    public static <T> Optional<T> either(Optional<T> o1, Optional<T> o2) {
+        if (o1.isPresent()) {
+            return o1;
+        }
+
+        return o2;
+    }
 }
