@@ -5,13 +5,19 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 
 public class Optionals {
     public static <T> List<T> toList(Optional<T> o) {
         return o.map(Collections::singletonList).orElse(emptyList());
+    }
+
+    public static <T> Set<T> toSet(Optional<T> o) {
+        return o.map(Collections::singleton).orElse(emptySet());
     }
 
     public static <T> Stream<T> toStream(Optional<T> o) {
