@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
@@ -30,6 +31,10 @@ public class Optionals {
         }
 
         return Optional.empty();
+    }
+
+    public static <L, R, T> Optional<T> combine(Optional<L> o1, Optional<R> o2, BiFunction<L, R, T> merger) {
+        return combine(o1, o2).map(pair -> merger.apply(pair.getLeft(), pair.getRight()));
     }
 
     public static <T> Optional<T> either(Optional<T> o1, Optional<T> o2) {
