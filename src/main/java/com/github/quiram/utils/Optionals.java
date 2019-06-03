@@ -3,9 +3,7 @@ package com.github.quiram.utils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
@@ -21,8 +19,9 @@ public class Optionals {
         return o.map(Collections::singleton).orElse(emptySet());
     }
 
-    public static <T> Stream<T> toStream(Optional<T> o) {
-        return o.map(Stream::of).orElse(Stream.empty());
+    @SafeVarargs
+    public static <T> Stream<T> toStream(Optional<T>... optionals) {
+        return Arrays.stream(optionals).flatMap(o -> o.map(Stream::of).orElse(Stream.empty()));
     }
 
     public static <L, R> Optional<Pair<L, R>> combine(Optional<L> o1, Optional<R> o2) {
