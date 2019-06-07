@@ -36,6 +36,15 @@ public class Optionals {
         return combine(o1, o2).map(pair -> merger.apply(pair.getLeft(), pair.getRight()));
     }
 
+    public static <T> Optional<T> merge(Optional<T> o1, Optional<T> o2, BiFunction<T, T, T> merger) {
+        final Optional<T> combination = combine(o1, o2, merger);
+        if (combination.isPresent()) {
+            return combination;
+        }
+
+        return either(o1, o2);
+    }
+
     public static <T> Optional<T> either(Optional<T> o1, Optional<T> o2) {
         if (o1.isPresent()) {
             return o1;
