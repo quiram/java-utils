@@ -1,5 +1,8 @@
 package com.github.quiram.utils;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
+
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -132,6 +135,15 @@ public class Collections {
         });
 
         return outerList;
+    }
+
+    public static <T1, T2, R> Stream<Pair<T1, T2>> cartesianProduct(Collection<T1> collection1, Collection<T2> collection2) {
+        return cartesianProduct(collection1, collection2, Pair::of);
+    }
+
+    public static <T1, T2, T3, R> Stream<Triple<T1, T2, T3>> cartesianProduct(Collection<T1> collection1, Collection<T2> collection2,
+                                                                              Collection<T3> collection3) {
+        return cartesianProduct(collection1, collection2, collection3, Triple::of);
     }
 
     public static <T1, T2, R> Stream<R> cartesianProduct(Collection<T1> collection1, Collection<T2> collection2, BiFunction<T1, T2, R> combiningFunction) {
