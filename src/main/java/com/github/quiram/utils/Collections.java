@@ -134,6 +134,13 @@ public class Collections {
         return outerList;
     }
 
+    public static <T1, T2, R> Stream<R> cartesianProduct(Stream<T1> stream1, Stream<T2> stream2, BiFunction<T1, T2, R> combiningFunction) {
+        return stream1.flatMap(
+                item1 -> stream2.map(item2 ->
+                        combiningFunction.apply(item1, item2))
+        );
+    }
+
     private static <T> boolean listsHaveSameSize(List<List<T>> l) {
         return l.stream().map(List::size).distinct().count() == 1;
     }
