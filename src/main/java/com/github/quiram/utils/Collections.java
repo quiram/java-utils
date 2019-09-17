@@ -141,6 +141,17 @@ public class Collections {
         );
     }
 
+    public static <T1, T2, T3, R> Stream<R> cartesianProduct(Collection<T1> collection1, Collection<T2> collection2, Collection<T3> collection3,
+                                                             TriFunction<T1, T2, T3, R> combiningFunction) {
+        return collection1.stream().flatMap(
+                item1 -> collection2.stream().flatMap(item2 ->
+                        collection3.stream().map((item3 ->
+                                combiningFunction.apply(item1, item2, item3))
+                        )
+                )
+        );
+    }
+
     private static <T> boolean listsHaveSameSize(List<List<T>> l) {
         return l.stream().map(List::size).distinct().count() == 1;
     }
