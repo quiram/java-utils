@@ -134,9 +134,9 @@ public class Collections {
         return outerList;
     }
 
-    public static <T1, T2, R> Stream<R> cartesianProduct(Stream<T1> stream1, Stream<T2> stream2, BiFunction<T1, T2, R> combiningFunction) {
-        return stream1.flatMap(
-                item1 -> stream2.map(item2 ->
+    public static <T1, T2, R> Stream<R> cartesianProduct(Collection<T1> collection1, Collection<T2> collection2, BiFunction<T1, T2, R> combiningFunction) {
+        return collection1.stream().flatMap(
+                item1 -> collection2.stream().map(item2 ->
                         combiningFunction.apply(item1, item2))
         );
     }
