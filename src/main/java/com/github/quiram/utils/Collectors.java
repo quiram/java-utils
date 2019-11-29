@@ -1,5 +1,7 @@
 package com.github.quiram.utils;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.Optional;
 import java.util.stream.Collector;
 
@@ -16,6 +18,18 @@ public class Collectors {
                         throw new RuntimeException("At most one element expected, but got " + list);
                     }
                     return head(list);
+                }
+        );
+    }
+
+    public static <T> Collector<T, ?, Pair<T, T>> toPair() {
+        return collectingAndThen(
+                toList(),
+                list -> {
+                    if (list.size() != 2) {
+                        throw new RuntimeException("Exactly two elements expected, but got " + list);
+                    }
+                    return Pair.of(list.get(0), list.get(1));
                 }
         );
     }
