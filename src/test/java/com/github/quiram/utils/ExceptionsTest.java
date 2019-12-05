@@ -1,6 +1,8 @@
 package com.github.quiram.utils;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,6 +12,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class ExceptionsTest {
+    @Rule
+    public ExpectedException onBadInput = ExpectedException.none();
+
     @Test
     public void attemptingStatementThatWorksReturnsWrappedValue() {
         final Optional<Integer> result = attempt(() -> 1);
@@ -23,6 +28,36 @@ public class ExceptionsTest {
         });
 
         assertEquals(Optional.empty(), result);
+    }
+
+    @Test
+    public void attemptingStatementThatSucceedsWithConfiguredExceptionReturnsValue() {
+        final Optional<String> result = attempt(() -> "hello", RuntimeException.class);
+        assertEquals(Optional.of("hello"), result);
+    }
+
+    @Test
+    public void attemptingStatementThatFailsWithExpectedExceptionReturnsEmpty() {
+        final Optional<Object> result = attempt(() -> {
+            throw new IllegalArgumentException();
+        }, IllegalArgumentException.class);
+        assertEquals(Optional.empty(), result);
+    }
+
+    @Test
+    public void attemptingStatementThatFailsWithExceptionChildOfConfiguredReturnsEmpty() {
+        final Optional<Object> result = attempt(() -> {
+            throw new RuntimeException();
+        }, Exception.class);
+        assertEquals(Optional.empty(), result);
+    }
+
+    @Test
+    public void attemptingStatementThatFailsWithExceptionDifferentFromConfiguredPropagatesException() {
+        onBadInput.expect(Exception.class);
+        attempt(() -> {
+            throw new Exception();
+        }, RuntimeException.class);
     }
 
     @Test

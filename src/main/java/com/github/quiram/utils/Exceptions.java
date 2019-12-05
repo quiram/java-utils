@@ -41,10 +41,18 @@ public class Exceptions {
     }
 
     static public <T> Optional<T> attempt(Callable<T> statement) {
+        return attempt(statement, Exception.class);
+    }
+
+    static public <T> Optional<T> attempt(Callable<T> statement, Class<? extends Exception> suppressedExceptionType) {
         try {
             return Optional.of(statement.call());
         } catch (Exception e) {
-            return Optional.empty();
+            if (suppressedExceptionType.isAssignableFrom(e.getClass())) {
+                return Optional.empty();
+            }
+
+            throw new RuntimeException(e);
         }
     }
 
