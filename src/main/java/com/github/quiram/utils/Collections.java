@@ -114,6 +114,12 @@ public class Collections {
         return finalSet;
     }
 
+    public static <T> Set<T> intersect(Set<T> set1, Set<T> set2) {
+        final HashSet<T> result = new HashSet<>(set1);
+        result.retainAll(set2);
+        return result;
+    }
+
     public static <T> List<List<T>> transpose(List<List<T>> listOfLists) {
         if (listOfLists == null)
             return null;
