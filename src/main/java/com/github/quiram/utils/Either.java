@@ -1,6 +1,7 @@
 package com.github.quiram.utils;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Either<L, R> {
@@ -26,5 +27,10 @@ public class Either<L, R> {
                         .orElseThrow(() -> new RuntimeException("Unexpected: Both elements in Either are empty.")
                         )
         );
+    }
+
+    public void apply(Consumer<L> leftConsumer, Consumer<R> rightConsumer) {
+        left.ifPresent(leftConsumer);
+        right.ifPresent(rightConsumer);
     }
 }
