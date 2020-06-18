@@ -11,7 +11,7 @@ import static com.github.quiram.utils.Math.pow;
 import static java.lang.Character.toUpperCase;
 
 public class Random {
-    private static java.util.Random random = new java.util.Random();
+    private static final java.util.Random random = new java.util.Random();
     private static final String letters = "abcdefghijklmnopqrstuvwxyz";
     private static final String digits = "0123456789";
 
