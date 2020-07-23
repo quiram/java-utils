@@ -1,5 +1,6 @@
 package com.github.quiram.utils;
 
+import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -98,7 +99,11 @@ public class Random {
     @SuppressWarnings("unchecked")
     public static <T extends Enum<T>> T randomEnum(Class<T> enumType) {
         final T[] enumValues = (T[]) unchecked(
-                () -> enumType.getMethod("values").invoke(null));
+                () -> {
+                    final Method valuesMethod = enumType.getMethod("values");
+                    valuesMethod.setAccessible(true);
+                    return valuesMethod.invoke(null);
+                });
         return enumValues[randomInt(enumValues.length)];
     }
 
