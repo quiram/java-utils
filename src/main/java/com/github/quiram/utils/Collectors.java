@@ -9,6 +9,7 @@ import java.util.stream.Collector;
 import java.util.stream.IntStream;
 
 import static com.github.quiram.utils.Collections.head;
+import static java.lang.String.format;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
@@ -71,5 +72,23 @@ public class Collectors {
                             .collect(java.util.stream.Collectors.toList());
                 }
         );
+    }
+
+    public static <P, T extends P> Collector<P, ?, List<T>> toListOf(Class<T> klass) {
+        return collectingAndThen(
+                toList(),
+                list -> {
+                    final List<P> offendingItems = list.stream()
+                            .filter(x -> !klass.isAssignableFrom(x.getClass()))
+                            .collect(toList());
+
+                    if (offendingItems.isEmpty()) {
+                        return list.stream()
+                                .map(klass::cast)
+                                .collect(toList());
+                    }
+
+                    throw new RuntimeException(format("The following items cannot be cast to %s: %s", klass.getSimpleName(), offendingItems));
+                });
     }
 }
