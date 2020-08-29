@@ -40,13 +40,7 @@ public class Collectors {
                         return list.get(0);
                     }
 
-                    final String errorMessage;
-                    if (list.size() == 0) {
-                        errorMessage = errorIfEmpty;
-                    } else {
-                        errorMessage = errorSupplierIfTooMany.apply(list);
-                    }
-
+                    final String errorMessage = list.size() == 0 ? errorIfEmpty : errorSupplierIfTooMany.apply(list);
                     throw new RuntimeException(errorMessage);
                 }
         );
