@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.IntStream;
 
@@ -20,6 +21,33 @@ public class Collectors {
                         throw new RuntimeException("At most one element expected, but got " + list);
                     }
                     return head(list);
+                }
+        );
+    }
+
+    public static <T> Collector<T, ?, T> toSingleton() {
+        return toSingleton(
+                "Expected exactly one element, got none",
+                list -> "Expected exactly one element, got " + list
+        );
+    }
+
+    public static <T> Collector<T, ?, T> toSingleton(String errorIfEmpty, Function<List<T>, String> errorSupplierIfTooMany) {
+        return collectingAndThen(
+                toList(),
+                list -> {
+                    if (list.size() == 1) {
+                        return list.get(0);
+                    }
+
+                    final String errorMessage;
+                    if (list.size() == 0) {
+                        errorMessage = errorIfEmpty;
+                    } else {
+                        errorMessage = errorSupplierIfTooMany.apply(list);
+                    }
+
+                    throw new RuntimeException(errorMessage);
                 }
         );
     }
