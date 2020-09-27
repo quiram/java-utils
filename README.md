@@ -13,7 +13,7 @@ Add [jitpack.io](https://jitpack.io) to your list of valid repositories. For ins
 </repositories>
 ```
 
-Add this library as a dependency using `com.github.quiram` as group ID, repo name as artifact ID, and tag as version. For instance, for Maven:
+Add this library as a dependency using `com.github.quiram` as group ID, repo name as artifact ID, and [release number](https://github.com/quiram/java-utils/releases) as version. For instance, for Maven:
 
 ```
 <dependency>
