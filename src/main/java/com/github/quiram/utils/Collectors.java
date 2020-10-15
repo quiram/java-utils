@@ -48,12 +48,23 @@ public class Collectors {
 
     public static <T> Collector<T, ?, Pair<T, T>> toPair() {
         return collectingAndThen(
+                toMaybePair(),
+                maybePair -> maybePair.orElseThrow(() -> new RuntimeException("Cannot create pair from empty stream"))
+        );
+    }
+
+    public static <T> Collector<T, ?, Optional<Pair<T, T>>> toMaybePair() {
+        return collectingAndThen(
                 toList(),
                 list -> {
-                    if (list.size() != 2) {
-                        throw new RuntimeException("Exactly two elements expected, but got " + list);
+                    switch (list.size()) {
+                        case 0:
+                            return Optional.empty();
+                        case 2:
+                            return Optional.of(Pair.of(list.get(0), list.get(1)));
+                        default:
+                            throw new RuntimeException("Failed to create a pair from " + list);
                     }
-                    return Pair.of(list.get(0), list.get(1));
                 }
         );
     }
