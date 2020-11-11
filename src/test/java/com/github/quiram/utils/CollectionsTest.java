@@ -3,6 +3,7 @@ package com.github.quiram.utils;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -68,5 +69,49 @@ public class CollectionsTest {
         final Set<String> set1 = Stream.of(commonContent, randomString()).collect(toSet());
         final Set<String> set2 = Stream.of(commonContent, randomString()).collect(toSet());
         assertEquals(singleton(commonContent), intersect(set1, set2));
+    }
+
+    @Test
+    public void mergingTwoEmptyMapsProducesEmptyMap() {
+        final Map<Object, Object> result = merge(($1, $2) -> $1, emptyMap(), emptyMap());
+        assertEquals(emptyMap(), result);
+    }
+
+    @Test
+    public void mergingEmptyMapWithNonEmptyMapProducesTheNonEmptyMap() {
+        final Map<String, String> nonEmptyMap = singletonMap(randomString(), randomString());
+        assertEquals(nonEmptyMap, merge(($1, $2) -> $1, nonEmptyMap, emptyMap()));
+        assertEquals(nonEmptyMap, merge(($1, $2) -> $1, emptyMap(), nonEmptyMap));
+    }
+
+    @Test
+    public void mergingTwoNonEmptyMapsWithDifferentKeysProducesMapWithAllKeysCombined() {
+        final String key1 = randomString();
+        final String value1 = randomString();
+        final String key2 = randomString();
+        final String value2 = randomString();
+        final Map<String, String> nonEmptyMap1 = singletonMap(key1, value1);
+        final Map<String, String> nonEmptyMap2 = singletonMap(key2, value2);
+        final Map<String, String> result = merge(($1, $2) -> $1, nonEmptyMap1, nonEmptyMap2);
+        assertEquals(2, result.size());
+        assertEquals(value1, result.get(key1));
+        assertEquals(value2, result.get(key2));
+    }
+
+    @Test
+    public void mergingTwoNonEmptyMapsWithOverlappingKeysUsesMergingFunction() {
+        final String key = randomString();
+        final String value1 = randomString();
+        final String value2 = randomString();
+        final Map<String, String> nonEmptyMap1 = singletonMap(key, value1);
+        final Map<String, String> nonEmptyMap2 = singletonMap(key, value2);
+        assertEquals(nonEmptyMap1, merge(($1, $2) -> $1, nonEmptyMap1, nonEmptyMap2));
+        assertEquals(nonEmptyMap2, merge(($1, $2) -> $2, nonEmptyMap1, nonEmptyMap2));
+    }
+
+    @Test
+    public void canMergeThreeMaps() {
+        final Map<String, String> result = merge(($1, $2) -> $1, singletonMap(randomString(), randomString()), singletonMap(randomString(), randomString()), singletonMap(randomString(), randomString()));
+        assertEquals(3, result.size());
     }
 }
