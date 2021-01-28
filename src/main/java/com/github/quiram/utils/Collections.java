@@ -55,13 +55,23 @@ public class Collections {
     }
 
     public static <T> List<T> concat(T item, List<T> list2) {
-        return concat(singletonList(item), list2);
+        return concatLists(singletonList(item), list2);
+    }
+
+    public static <T> List<T> concat(List<T> list2, T item) {
+        return concatLists(list2, singletonList(item));
     }
 
     @SafeVarargs
     public static <T> List<T> concat(List<T>... lists) {
+        return concatLists(lists);
+    }
+
+    @SafeVarargs
+    public static <T> List<T> concatLists(List<T>... lists) {
         return Streams.concat(stream(lists).map(List::stream)).collect(Collectors.toList());
     }
+
 
     public static <T> Optional<T> findFirst(Collection<T> collection, Predicate<T> predicate) {
         return collection.stream().filter(predicate).findFirst();
