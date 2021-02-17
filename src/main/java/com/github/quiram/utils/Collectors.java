@@ -3,6 +3,7 @@ package com.github.quiram.utils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -10,12 +11,11 @@ import java.util.stream.Collector;
 import static com.github.quiram.utils.Collections.head;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
 
 public class Collectors {
     public static <T> Collector<T, ?, Optional<T>> toMaybeOne() {
         return collectingAndThen(
-                toList(),
+                java.util.stream.Collectors.toList(),
                 list -> {
                     if (list.size() > 1) {
                         throw new RuntimeException("At most one element expected, but got " + list);
@@ -34,7 +34,7 @@ public class Collectors {
 
     public static <T> Collector<T, ?, T> toSingleton(String errorIfEmpty, Function<List<T>, String> errorSupplierIfTooMany) {
         return collectingAndThen(
-                toList(),
+                java.util.stream.Collectors.toList(),
                 list -> {
                     if (list.size() == 1) {
                         return list.get(0);
@@ -43,6 +43,12 @@ public class Collectors {
                     final String errorMessage = list.size() == 0 ? errorIfEmpty : errorSupplierIfTooMany.apply(list);
                     throw new RuntimeException(errorMessage);
                 }
+        );
+    }
+
+    public static <T> Collector<T, ?, List<T>> toListWithoutNulls() {
+        return collectingAndThen(java.util.stream.Collectors.toList(),
+                list -> list.stream().filter(Objects::nonNull).collect(java.util.stream.Collectors.toList())
         );
     }
 
@@ -55,7 +61,7 @@ public class Collectors {
 
     public static <T> Collector<T, ?, Optional<Pair<T, T>>> toMaybePair() {
         return collectingAndThen(
-                toList(),
+                java.util.stream.Collectors.toList(),
                 list -> {
                     switch (list.size()) {
                         case 0:
@@ -75,16 +81,16 @@ public class Collectors {
 
     public static <P, T extends P> Collector<P, ?, List<T>> toListOf(Class<T> klass) {
         return collectingAndThen(
-                toList(),
+                java.util.stream.Collectors.toList(),
                 list -> {
                     final List<P> offendingItems = list.stream()
                             .filter(x -> !klass.isAssignableFrom(x.getClass()))
-                            .collect(toList());
+                            .collect(java.util.stream.Collectors.toList());
 
                     if (offendingItems.isEmpty()) {
                         return list.stream()
                                 .map(klass::cast)
-                                .collect(toList());
+                                .collect(java.util.stream.Collectors.toList());
                     }
 
                     throw new RuntimeException(format("The following items cannot be cast to %s: %s", klass.getSimpleName(), offendingItems));
