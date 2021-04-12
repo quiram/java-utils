@@ -1,6 +1,7 @@
 package com.github.quiram.utils;
 
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -10,6 +11,7 @@ import static com.github.quiram.utils.ArgumentChecks.ensureNotNegative;
 import static com.github.quiram.utils.Exceptions.unchecked;
 import static com.github.quiram.utils.Math.pow;
 import static java.lang.Character.toUpperCase;
+import static java.util.Arrays.asList;
 
 public class Random {
     private static final java.util.Random random = new java.util.Random();
@@ -97,14 +99,16 @@ public class Random {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Enum<T>> T randomEnum(Class<T> enumType) {
-        final T[] enumValues = (T[]) unchecked(
+    public static <T extends Enum<T>> T randomEnum(Class<T> enumType, T... exclusions) {
+        final T[] allEnumValues = (T[]) unchecked(
                 () -> {
                     final Method valuesMethod = enumType.getMethod("values");
                     valuesMethod.setAccessible(true);
                     return valuesMethod.invoke(null);
                 });
-        return enumValues[randomInt(enumValues.length)];
+        final HashSet<T> candidateEnumValues = new HashSet<>(asList(allEnumValues));
+        candidateEnumValues.removeAll(asList(exclusions));
+        return (T) candidateEnumValues.toArray()[randomInt(candidateEnumValues.size())];
     }
 
     public static <T> T randomElement(T[] array) {

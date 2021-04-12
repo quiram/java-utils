@@ -6,8 +6,7 @@ import java.util.stream.IntStream;
 
 import static com.github.quiram.utils.Random.*;
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
@@ -24,9 +23,17 @@ public class RandomTest {
     }
 
     @Test
-    public void randomFromWillProduceAnUnspecifiedItemFromTheEnum() {
+    public void randomEnumWillProduceAnUnspecifiedItemFromTheEnum() {
         final TestEnum element = randomEnum(TestEnum.class);
         assertThat(asList(TestEnum.values()), hasItem(element));
+    }
+
+    @Test
+    public void randomEnumCanExcludeElements() {
+        IntStream.range(0, 10).forEach($ -> {
+            final TestEnum element = randomEnum(TestEnum.class, TestEnum.FIRST, TestEnum.SECOND);
+            assertThat(element, is(TestEnum.THIRD));
+        });
     }
 
     @Test(expected = IllegalArgumentException.class)
