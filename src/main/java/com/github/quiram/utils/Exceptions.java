@@ -2,6 +2,7 @@ package com.github.quiram.utils;
 
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class Exceptions {
@@ -61,5 +62,14 @@ public class Exceptions {
             statement.call();
         } catch (Exception ignored) {
         }
+    }
+
+    static public <T> Consumer<T> ignoreFailures(Consumer<T> consumer) {
+        return t -> {
+            try {
+                consumer.accept(t);
+            } catch (Exception ignored) {
+            }
+        };
     }
 }
