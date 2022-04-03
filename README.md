@@ -19,7 +19,7 @@ Add this library as a dependency using `com.github.quiram` as group ID, repo nam
 <dependency>
     <groupId>com.github.quiram</groupId>
     <artifactId>java-utils</artifactId>
-    <version>v5.1.0</version>
+    <version>v6.2.0</version>
 </dependency>
 ```
 
