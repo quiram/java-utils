@@ -1,5 +1,7 @@
 package com.github.quiram.utils;
 
+import lombok.SneakyThrows;
+
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Optional;
@@ -99,13 +101,11 @@ public class Random {
     }
 
     @SuppressWarnings("unchecked")
+    @SneakyThrows
     public static <T extends Enum<T>> T randomEnum(Class<T> enumType, T... exclusions) {
-        final T[] allEnumValues = (T[]) unchecked(
-                () -> {
-                    final Method valuesMethod = enumType.getMethod("values");
-                    valuesMethod.setAccessible(true);
-                    return valuesMethod.invoke(null);
-                });
+        final Method valuesMethod = enumType.getMethod("values");
+        valuesMethod.setAccessible(true);
+        final T[] allEnumValues = (T[]) valuesMethod.invoke(null);
         final HashSet<T> candidateEnumValues = new HashSet<>(asList(allEnumValues));
         candidateEnumValues.removeAll(asList(exclusions));
         return (T) candidateEnumValues.toArray()[randomInt(candidateEnumValues.size())];
