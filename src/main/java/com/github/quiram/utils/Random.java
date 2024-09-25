@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
 
 import static com.github.quiram.utils.ArgumentChecks.ensureGreaterThanZero;
 import static com.github.quiram.utils.ArgumentChecks.ensureNotNegative;
-import static com.github.quiram.utils.Exceptions.unchecked;
 import static com.github.quiram.utils.Math.pow;
 import static java.lang.Character.toUpperCase;
 import static java.util.Arrays.asList;
@@ -107,7 +106,7 @@ public class Random {
         valuesMethod.setAccessible(true);
         final T[] allEnumValues = (T[]) valuesMethod.invoke(null);
         final HashSet<T> candidateEnumValues = new HashSet<>(asList(allEnumValues));
-        candidateEnumValues.removeAll(asList(exclusions));
+        asList(exclusions).forEach(candidateEnumValues::remove);
         return (T) candidateEnumValues.toArray()[randomInt(candidateEnumValues.size())];
     }
 
