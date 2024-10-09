@@ -1,9 +1,7 @@
 package com.github.quiram.utils;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -11,13 +9,12 @@ import java.util.stream.Stream;
 import static com.github.quiram.utils.Collectors.toPair;
 import static com.github.quiram.utils.Collectors.toPairs;
 import static java.util.Collections.emptyList;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CollectorsTest {
-
-    @Rule
-    public ExpectedException onBadInput = ExpectedException.none();
 
     @Test
     public void streamWithExactlyTwoElementsCanBeCollectedToPair() {
@@ -26,18 +23,14 @@ public class CollectorsTest {
         assertThat(pair.getRight(), is(2));
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void streamWithOneElementFailsToBeCollectedToPair() {
-        onBadInput.expect(RuntimeException.class);
-        Stream.of(1).collect(toPair());
+        assertThrows(RuntimeException.class, () -> Stream.of(1).collect(toPair()));
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void streamWithThreeElementFailsToBeCollectedToPair() {
-        onBadInput.expect(RuntimeException.class);
-        Stream.of(1, 2, 3).collect(toPair());
+        assertThrows(RuntimeException.class, () -> Stream.of(1, 2, 3).collect(toPair()));
     }
 
     @Test
@@ -55,19 +48,15 @@ public class CollectorsTest {
         assertThat(pair.getRight(), is(2));
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void streamWithOneElementFailsToBeCollectedToPairs() {
-        onBadInput.expect(RuntimeException.class);
-        onBadInput.expectMessage("even number");
-        Stream.of(1).collect(toPairs());
+        RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> Stream.of(1).collect(toPairs()));
+        assertThat(runtimeException.getMessage(), containsString("even number"));
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void streamWithThreeElementFailsToBeCollectedToPairs() {
-        onBadInput.expect(RuntimeException.class);
-        Stream.of(1, 2, 3).collect(toPairs());
+        assertThrows(RuntimeException.class, () -> Stream.of(1, 2, 3).collect(toPairs()));
     }
 
 }

@@ -1,9 +1,8 @@
 package com.github.quiram.utils;
 
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,31 +11,21 @@ import static com.github.quiram.utils.ComparableList.comparable;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
 public class ComparableListTest {
     private static final List<Integer> EMPTY = emptyList();
-    private final List<Integer> list1;
-    private final List<Integer> list2;
-    private final int expected;
 
-    public ComparableListTest(@SuppressWarnings("unused") String caseName, List<Integer> list1, List<Integer> list2, int expected) {
-        this.list1 = list1;
-        this.list2 = list2;
-        this.expected = expected;
-    }
-
-    @Test
-    public void run() {
-        final ComparableList<Integer> comparable1 = comparable(this.list1);
-        final ComparableList<Integer> comparable2 = comparable(this.list2);
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("data")
+    public void run(@SuppressWarnings("unused") String caseName, List<Integer> list1, List<Integer> list2, int expected) {
+        final ComparableList<Integer> comparable1 = comparable(list1);
+        final ComparableList<Integer> comparable2 = comparable(list2);
 
         assertEquals(expected, comparable1.compareTo(comparable2));
         assertEquals(-expected, comparable2.compareTo(comparable1));
     }
 
-    @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> data() {
         return asList(new Object[][]{
                 {"two empty lists are equal", EMPTY, EMPTY, 0},

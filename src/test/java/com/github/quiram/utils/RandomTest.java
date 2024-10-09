@@ -1,16 +1,21 @@
 package com.github.quiram.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 
-import static com.github.quiram.utils.Random.*;
+import static com.github.quiram.utils.Random.randomEnum;
+import static com.github.quiram.utils.Random.randomPositiveInt;
+import static com.github.quiram.utils.Random.randomString;
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RandomTest {
 
@@ -36,14 +41,14 @@ public class RandomTest {
         });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void randomIntWithUpperBoundFailsIfNegativeBound() {
-        randomPositiveInt(-1);
+        assertThrows(IllegalArgumentException.class, () -> randomPositiveInt(-1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void randomIntWithUpperBoundFailsIfBoundIsZero() {
-        randomPositiveInt(0);
+        assertThrows(IllegalArgumentException.class, () -> randomPositiveInt(0));
     }
 
     @Test

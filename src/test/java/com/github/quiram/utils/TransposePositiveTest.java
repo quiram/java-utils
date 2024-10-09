@@ -1,8 +1,7 @@
 package com.github.quiram.utils;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 
@@ -11,20 +10,10 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-@RunWith(Parameterized.class)
 public class TransposePositiveTest<T> {
 
-    private final List<List<T>> in;
-    private final List<List<T>> out;
-
-    public TransposePositiveTest(List<List<T>> in, List<List<T>> out) {
-        this.in = in;
-        this.out = out;
-    }
-
-    @Parameterized.Parameters
     public static List<Object[]> data() {
         return asList(new Object[][]
                 {
@@ -37,18 +26,21 @@ public class TransposePositiveTest<T> {
         );
     }
 
-    @Test
-    public void directTranspose() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void directTranspose(List<List<T>> in, List<List<T>> out) {
         assertThat(transpose(in), is(out));
     }
 
-    @Test
-    public void inverseTranspose() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void inverseTranspose(List<List<T>> in, List<List<T>> out) {
         assertThat(transpose(out), is(in));
     }
 
-    @Test
-    public void selfTranspose() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void selfTranspose(List<List<T>> in) {
         assertThat(transpose(transpose(in)), is(in));
     }
 }

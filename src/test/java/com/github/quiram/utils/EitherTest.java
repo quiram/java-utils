@@ -1,10 +1,10 @@
 package com.github.quiram.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.github.quiram.utils.Either.left;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EitherTest {
     @Test

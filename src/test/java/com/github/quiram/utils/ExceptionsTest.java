@@ -1,8 +1,6 @@
 package com.github.quiram.utils;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,13 +10,11 @@ import java.util.function.Consumer;
 
 import static com.github.quiram.utils.Exceptions.attempt;
 import static com.github.quiram.utils.Exceptions.ignoreFailures;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ExceptionsTest {
-    @Rule
-    public ExpectedException onBadInput = ExpectedException.none();
-
     @Test
     public void attemptingStatementThatWorksReturnsWrappedValue() {
         final Optional<Integer> result = attempt(() -> 1);
@@ -58,10 +54,9 @@ public class ExceptionsTest {
 
     @Test
     public void attemptingStatementThatFailsWithExceptionDifferentFromConfiguredPropagatesException() {
-        onBadInput.expect(Exception.class);
-        attempt(() -> {
+        assertThrows(Exception.class, () -> attempt(() -> {
             throw new Exception();
-        }, RuntimeException.class);
+        }, RuntimeException.class));
     }
 
     @Test

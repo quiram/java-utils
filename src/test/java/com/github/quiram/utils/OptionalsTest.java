@@ -1,6 +1,6 @@
 package com.github.quiram.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -8,7 +8,7 @@ import static com.github.quiram.utils.Optionals.toList;
 import static com.github.quiram.utils.Random.randomString;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OptionalsTest {
     @Test

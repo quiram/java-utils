@@ -1,18 +1,26 @@
 package com.github.quiram.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.github.quiram.utils.Collections.*;
+import static com.github.quiram.utils.Collections.concat;
+import static com.github.quiram.utils.Collections.filter;
+import static com.github.quiram.utils.Collections.intersect;
+import static com.github.quiram.utils.Collections.merge;
 import static com.github.quiram.utils.Random.randomString;
 import static java.util.Arrays.asList;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.toSet;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CollectionsTest {
     @Test
