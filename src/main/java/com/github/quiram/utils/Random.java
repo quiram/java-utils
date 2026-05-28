@@ -14,72 +14,89 @@ import static com.github.quiram.utils.Math.pow;
 import static java.lang.Character.toUpperCase;
 import static java.util.Arrays.asList;
 
-public class Random {
+public class Random
+{
     private static final java.util.Random random = new java.util.Random();
     private static final String letters = "abcdefghijklmnopqrstuvwxyz";
     private static final String digits = "0123456789";
 
-    public static String randomString() {
+    public static String randomString()
+    {
         return IntStream.range(0, randomPositiveInt(20) + 1)
                 .mapToObj($ -> randomLetter())
                 .reduce(new StringBuilder(), StringBuilder::append, (b1, b2) -> b2)
                 .toString();
     }
 
-    public static char randomLetter() {
+    public static char randomLetter()
+    {
         final char c = randomCharacter(letters);
-        if (randomBoolean()) {
+        if (randomBoolean())
+        {
             return c;
-        } else {
+        } else
+        {
             return toUpperCase(c);
         }
     }
 
-    public static char randomDigit() {
+    public static char randomDigit()
+    {
         return randomCharacter(digits);
     }
 
-    public static char randomCharacter(String s) {
+    public static char randomCharacter(String s)
+    {
         return s.charAt(randomPositiveInt(s.length()));
     }
 
-    public static int randomInt() {
+    public static int randomInt()
+    {
         return random.nextInt();
     }
 
-    public static int randomInt(int bound) {
+    public static int randomInt(int bound)
+    {
         return random.nextInt(bound);
     }
 
-    public static int randomPositiveInt() {
+    public static int randomPositiveInt()
+    {
         return randomIntGreaterThan(0);
     }
 
-    public static int randomPositiveInt(int upperBound) {
-        if (upperBound <= 0) {
+    public static int randomPositiveInt(int upperBound)
+    {
+        if (upperBound <= 0)
+        {
             throw new IllegalArgumentException("Upper bound must be 1 or greater.");
         }
 
         return randomIntWithinRange(0, upperBound);
     }
 
-    public static int randomIntGreaterThan(int threshold) {
+    public static int randomIntGreaterThan(int threshold)
+    {
         return randomIntWithinRange(threshold + 1, Integer.MAX_VALUE);
     }
 
-    public static int randomIntWithinRange(int lowInclusive, int upExclusive) {
+    public static int randomIntWithinRange(int lowInclusive, int upExclusive)
+    {
         return randomInt(upExclusive - lowInclusive) + lowInclusive;
     }
 
-    public static long randomLong() {
+    public static long randomLong()
+    {
         return random.nextInt();
     }
 
-    public static double randomDouble() {
+    public static double randomDouble()
+    {
         return random.nextDouble();
     }
 
-    public static double randomDouble(int bound, int precision) {
+    public static double randomDouble(int bound, int precision)
+    {
         ensureGreaterThanZero(bound, "bound");
         ensureNotNegative(precision, "precision");
         final int precisionFactor = pow(10, precision);
@@ -87,12 +104,15 @@ public class Random {
         return allDigits / precisionFactor;
     }
 
-    public static boolean randomBoolean() {
+    public static boolean randomBoolean()
+    {
         return random.nextBoolean();
     }
 
-    public static <T> Optional<T> randomOptional(Supplier<T> supplier) {
-        if (randomBoolean()) {
+    public static <T> Optional<T> randomOptional(Supplier<T> supplier)
+    {
+        if (randomBoolean())
+        {
             return Optional.empty();
         }
 
@@ -101,7 +121,8 @@ public class Random {
 
     @SuppressWarnings("unchecked")
     @SneakyThrows
-    public static <T extends Enum<T>> T randomEnum(Class<T> enumType, T... exclusions) {
+    public static <T extends Enum<T>> T randomEnum(Class<T> enumType, T... exclusions)
+    {
         final Method valuesMethod = enumType.getMethod("values");
         valuesMethod.setAccessible(true);
         final T[] allEnumValues = (T[]) valuesMethod.invoke(null);
@@ -110,7 +131,8 @@ public class Random {
         return (T) candidateEnumValues.toArray()[randomInt(candidateEnumValues.size())];
     }
 
-    public static <T> T randomElement(T[] array) {
+    public static <T> T randomElement(T[] array)
+    {
         return array[randomPositiveInt(array.length)];
     }
 }
