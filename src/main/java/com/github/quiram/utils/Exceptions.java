@@ -3,6 +3,7 @@ package com.github.quiram.utils;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Exceptions {
@@ -71,5 +72,9 @@ public class Exceptions {
             } catch (Exception ignored) {
             }
         };
+    }
+
+    static public <I,O, E extends Exception> Function<I,O> unchecked(ExceptionThrowingFunction<I,O,E> function) {
+        return i -> unchecked(() -> function.apply(i));
     }
 }

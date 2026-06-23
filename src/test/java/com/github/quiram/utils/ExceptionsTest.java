@@ -2,17 +2,13 @@ package com.github.quiram.utils;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-import static com.github.quiram.utils.Exceptions.attempt;
-import static com.github.quiram.utils.Exceptions.ignoreFailures;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static com.github.quiram.utils.Exceptions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ExceptionsTest {
     @Test
@@ -93,5 +89,15 @@ public class ExceptionsTest {
         final LinkedList<String> stringLinkedList = new LinkedList<>();
         ignoreFailures(consumer).accept(stringLinkedList);
         assertEquals(1, stringLinkedList.size());
+    }
+
+    @Test
+    void mappingFunctionThatThrowsCheckedException() {
+        String[] args = {"String", "Object"};
+        Set<? extends Class<?>> classes = Arrays.stream(args)
+                .map(s -> "java.lang." + s)
+                .map(unchecked(Class::forName))
+                .collect(Collectors.toSet());
+        assertNotNull(classes);
     }
 }
